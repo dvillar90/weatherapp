@@ -86,5 +86,5 @@ def index_2(request):
 
 def delete_city(request, city_id):
     City.objects.filter(id=city_id).delete()
-    return redirect('home')
+    return redirect('index')
 
