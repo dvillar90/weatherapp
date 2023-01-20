@@ -18,6 +18,8 @@ from django.urls import path, include
 from weather import views
 from django.contrib.auth import views as auth_views
 
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('weather', views.index, name="index"),  #the path for our index view
@@ -26,5 +28,7 @@ urlpatterns = [
     path('map',views.map,name="map"),
     path('home', views.home, name="home"),
     path('weather', views.index_2, name="index"),
+    path('delete_city/<int:city_id>/', views.delete_city, name='delete_city'),
+
    ]
 

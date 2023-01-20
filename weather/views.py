@@ -1,5 +1,5 @@
 import folium as folium
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 import requests
 
 from . import support_functions
@@ -83,4 +83,8 @@ def home(request):
 def index_2(request):
 
     return render(request, "index.html")
+
+def delete_city(request, city_id):
+    City.objects.filter(id=city_id).delete()
+    return redirect('home')
 
