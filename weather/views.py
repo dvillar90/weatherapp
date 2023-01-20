@@ -1,7 +1,9 @@
+import folium as folium
 from django.shortcuts import render
 import requests
 from .models import City
 from .form import CityForm
+
 # Create your views here.
 def index(request):
     url = 'http://api.openweathermap.org/data/2.5/weather?q={}&units=imperial&appid=c6653f6c9abb06e0a3dd17d64a2e8145'
@@ -14,7 +16,7 @@ def index(request):
     weather_data = []
 
     for city in cities:
-        city_weather = requests.get(url.format(city)).json() #request the API data and convert the JSON to Python data typesto Python data types
+        city_weather = requests.get(url.format(city)).json() #request the API data and convert the JSON to Python data types
 
         weather = {
             'city': city,
@@ -26,3 +28,45 @@ def index(request):
 
     context = {'weather_data': weather_data, 'form' : form}
     return render(request, 'index.html', context)  # returns the index.html template
+
+def map(request):
+    m = folium.Map() #add import folium at the top of views.py
+    data = dict()
+    try:
+        request.GET['reset']
+        print("resetting")
+        data['number_of_cities'] = 0
+        data['m'] = m._repr_html_
+        return render(request, "map.html", context=data)
+    except:
+        pass
+    try:
+        request.GET['city_list']
+        number_of_cities = int(request.GET['number_of_cities'])
+        visiting_cities = list()
+        for i in range(number_of_cities):
+            name = "city" + str(i)
+            city_name = request.GET[name]
+            visiting_cities.append(city_name)
+        m = support_functions.add_markers(m, visiting_cities)
+        data['visiting_cities'] = visiting_cities
+        m = m._repr_html_
+        data['m'] = m
+        return render(request, "map.html", data)
+    except:
+        pass
+    try:
+         number_of_cities = int(request.GET["number_of_cities"])
+         if number_of_cities > 0:
+            names = list()
+            for i in range(number_of_cities):
+                names.append("city"+str(i))
+            data['names'] = names
+            data['number_of_cities'] = number_of_cities
+         m = m._repr_html_
+         data['m'] = m
+    except:
+        data['number_of_cities'] = 0
+        m = m._repr_html_
+        data['m'] = m
+    return render(request,"map.html",context=data)

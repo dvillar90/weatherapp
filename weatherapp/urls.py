@@ -23,5 +23,6 @@ urlpatterns = [
     path('weather', views.index),  #the path for our index view
     path('', auth_views.LoginView.as_view(template_name='login.html'),name='login'),
     path('', include ('django.contrib.auth.urls')),
-]
+    path('map',views.map,name="map"),
+   ]
 
