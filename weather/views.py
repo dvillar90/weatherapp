@@ -1,8 +1,11 @@
 import folium as folium
 from django.shortcuts import render
 import requests
+
+from . import support_functions
 from .models import City
 from .form import CityForm
+
 
 # Create your views here.
 def index(request):
@@ -16,7 +19,8 @@ def index(request):
     weather_data = []
 
     for city in cities:
-        city_weather = requests.get(url.format(city)).json() #request the API data and convert the JSON to Python data types
+        city_weather = requests.get(
+            url.format(city)).json()  # request the API data and convert the JSON to Python data types
 
         weather = {
             'city': city,
@@ -26,11 +30,12 @@ def index(request):
         }
         weather_data.append(weather)  # add the data for the current city into our list
 
-    context = {'weather_data': weather_data, 'form' : form}
+    context = {'weather_data': weather_data, 'form': form}
     return render(request, 'index.html', context)  # returns the index.html template
 
+
 def map(request):
-    m = folium.Map() #add import folium at the top of views.py
+    m = folium.Map()  # add import folium at the top of views.py
     data = dict()
     try:
         request.GET['reset']
@@ -56,17 +61,26 @@ def map(request):
     except:
         pass
     try:
-         number_of_cities = int(request.GET["number_of_cities"])
-         if number_of_cities > 0:
+        number_of_cities = int(request.GET["number_of_cities"])
+        if number_of_cities > 0:
             names = list()
             for i in range(number_of_cities):
-                names.append("city"+str(i))
+                names.append("city" + str(i))
             data['names'] = names
             data['number_of_cities'] = number_of_cities
-         m = m._repr_html_
-         data['m'] = m
+        m = m._repr_html_
+        data['m'] = m
     except:
         data['number_of_cities'] = 0
         m = m._repr_html_
         data['m'] = m
-    return render(request,"map.html",context=data)
+    return render(request, "map.html", context=data)
+
+
+def home(request):
+    return render(request, "home.html")
+
+def index_2(request):
+
+    return render(request, "index.html")
+

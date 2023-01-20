@@ -20,9 +20,11 @@ from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('weather', views.index),  #the path for our index view
+    path('weather', views.index, name="index"),  #the path for our index view
     path('', auth_views.LoginView.as_view(template_name='login.html'),name='login'),
     path('', include ('django.contrib.auth.urls')),
     path('map',views.map,name="map"),
+    path('home', views.home, name="home"),
+    path('weather', views.index_2, name="index"),
    ]
 

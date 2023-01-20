@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div>
+        <h1>Welcome to your travel companion</h1>
+        <p>Please select an option:</p>
+        <a href="{% url 'index' %}" class="btn btn-primary btn-lg">View Current Weather</a>
+        <a href="{% url 'map' %}" class="btn btn-secondary btn-lg">View Route Map and Planner</a>
+    </div>
+{% endblock %}
