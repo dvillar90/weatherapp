@@ -43,4 +43,9 @@ header h1 {
 
 .card img {
     max-width: 100%;
+
+}
+
+#clock {
+    color: black;
 }
