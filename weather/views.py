@@ -80,6 +80,12 @@ def map(request):
 def home(request):
     return render(request, "home.html")
 
+def intro(request):
+    return render(request, "intro.html")
+
+def view_login(request):
+    return render(request, "login.html")
+
 def index_2(request):
 
     return render(request, "index.html")
